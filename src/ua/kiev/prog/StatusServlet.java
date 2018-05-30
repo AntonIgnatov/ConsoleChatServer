@@ -16,14 +16,24 @@ public class StatusServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String login = req.getParameter("login");
 
-
-        String list = gson.toJson(userList.usersStatus());
-
-        if (list != null) {
+        String list;
+        if (login != null && userList.findByName(login) != -1) {
+            list = gson.toJson(userList.usersStatus(login));
             OutputAnswer.outputWrite(resp, list);
-        } else {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        if (login != null && userList.findByName(login) == -1) {
+            OutputAnswer.outputWrite(resp, "wrong user");
+        }
+
+        if (login == null) {
+            list = gson.toJson(userList.usersStatus());
+            if (list != null) {
+                OutputAnswer.outputWrite(resp, list);
+            } else {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         }
     }
 }

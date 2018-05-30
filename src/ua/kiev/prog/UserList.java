@@ -61,7 +61,20 @@ public class UserList {
         List<String> result = new ArrayList<>();
 
         for (User u : userList.getList()) {
-            result.add(u.getLogin() + " online=" + u.isOnline());
+            String online = u.isOnline() ? "online" : "ofline";
+            result.add(u.getLogin() + " is " + online);
+        }
+        return result;
+    }
+    public List<String> usersStatus(String login) {
+        List<String> result = new ArrayList<>();
+
+        for (User u : userList.getList()) {
+            if (u.getLogin().equals(login)){
+                String online = u.isOnline() ? "online" : "ofline";
+                result.add(u.getLogin() + " is " + online);
+            }
+
         }
         return result;
     }
